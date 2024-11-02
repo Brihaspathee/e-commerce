@@ -1,0 +1,20 @@
+server:
+  port: 7092
+spring:
+  data:
+    mongodb:
+      username: admin
+      password: cognizant
+      host: localhost
+      port: 27019
+      database: customer
+      authentication-database: admin
+eureka:
+  instance:
+    hostname: localhost
+    port: 7091
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
