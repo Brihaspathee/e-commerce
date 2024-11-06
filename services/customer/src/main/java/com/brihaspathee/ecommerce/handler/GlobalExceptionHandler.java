@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
             var fieldName = ((FieldError)error).getField();
             var errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
-        })
+        });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(errors));
     }
