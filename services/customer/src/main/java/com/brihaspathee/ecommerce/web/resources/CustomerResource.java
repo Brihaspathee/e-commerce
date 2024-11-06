@@ -21,7 +21,7 @@ public class CustomerResource {
         return ResponseEntity.ok(customerService.createCustomer(customer));
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ResponseEntity<Void> updateCustomer(@RequestBody @Valid CustomerRequest customer) {
         customerService.updateCustomer(customer);
         return ResponseEntity.accepted().build();
@@ -30,5 +30,21 @@ public class CustomerResource {
     @GetMapping
     public ResponseEntity<CustomerList> getAllCustomers() {
         return ResponseEntity.ok(customerService.getAllCustomers());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerList> getCustomer(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.getCustomerById(id));
+    }
+
+    @GetMapping("/exists/{id}")
+    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+        return ResponseEntity.ok(customerService.existsById(id));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+        customerService.deleteCustomer(id);
+        return ResponseEntity.accepted().build();
     }
 }

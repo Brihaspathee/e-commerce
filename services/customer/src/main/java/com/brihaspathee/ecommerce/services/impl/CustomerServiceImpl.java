@@ -46,6 +46,25 @@ public class CustomerServiceImpl implements ICustomerService {
                 .build();
     }
 
+    @Override
+    public CustomerList getCustomerById(Long id) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer with id: " + id + " not found"));
+        return CustomerList.builder()
+                .customers(List.of(customer))
+                .build();
+    }
+
+    @Override
+    public Boolean existsById(Long id) {
+        return customerRepository.findById(id).isPresent();
+    }
+
+    @Override
+    public void deleteCustomer(Long id) {
+        customerRepository.deleteById(id);
+    }
+
     private void mergeCustomer(Customer customer, CustomerRequest customerRequest) {
         if(StringUtils.isNotBlank(customerRequest.firstName())) {
             customer.setFirstName(customerRequest.firstName());
