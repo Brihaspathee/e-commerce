@@ -1,8 +1,15 @@
 package com.brihaspathee.ecommerce.resource.web;
 
+import com.brihaspathee.ecommerce.domain.entity.Product;
+import com.brihaspathee.ecommerce.resource.model.ProductList;
+import com.brihaspathee.ecommerce.resource.model.ProductPurchaseRequest;
+import com.brihaspathee.ecommerce.resource.model.ProductPurchaseResponse;
+import com.brihaspathee.ecommerce.resource.model.ProductRequest;
+import com.brihaspathee.ecommerce.services.interfaces.IProductService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created in Intellij IDEA
@@ -14,7 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
  * To change this template use File | Settings | File and Code Template
  */
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductResource {
+
+    private final IProductService productService;
+
+    @PostMapping
+    public ResponseEntity<Long> createProduct(@RequestBody @Valid ProductRequest productRequest) {
+        return ResponseEntity.ok(productService.create(productRequest));
+    }
+
+    @PostMapping("/purchase")
+    public ResponseEntity<ProductPurchaseResponse> purchaseProducts(@RequestBody
+                                                                        @Valid
+                                                                        ProductPurchaseRequest productPurchaseRequest) {
+        return ResponseEntity.ok(productService.purchase(productPurchaseRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<ProductList> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductList> getProductById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
+
 }
