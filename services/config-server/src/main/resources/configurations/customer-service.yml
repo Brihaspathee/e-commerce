@@ -10,11 +10,11 @@ spring:
       database: customer
       authentication-database: admin
 eureka:
-  instance:
-    hostname: localhost
-    port: 7091
+#  instance:
+#    hostname: localhost
+#    port: 7091
   client:
     register-with-eureka: true
     fetch-registry: true
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+#    service-url:
+#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/

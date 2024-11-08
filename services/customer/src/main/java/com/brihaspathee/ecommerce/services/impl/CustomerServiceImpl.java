@@ -10,10 +10,12 @@ import com.brihaspathee.ecommerce.web.model.CustomerRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Setter
+@Service
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements ICustomerService {
 
