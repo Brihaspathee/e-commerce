@@ -1,5 +1,6 @@
 package com.brihaspathee.ecommerce.services.impl;
 
+import com.brihaspathee.ecommerce.domain.repository.ProductRepository;
 import com.brihaspathee.ecommerce.resource.model.ProductList;
 import com.brihaspathee.ecommerce.resource.model.ProductPurchaseRequest;
 import com.brihaspathee.ecommerce.resource.model.ProductPurchaseResponse;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements IProductService {
+
+    private final ProductRepository productRepository;
 
     @Override
     public Long create(ProductRequest productRequest) {
