@@ -1,4 +1,15 @@
 package com.brihaspathee.ecommerce.resource.model;
 
-public record ProductPurchaseResponse() {
+import lombok.Builder;
+
+import java.math.BigDecimal;
+
+@Builder
+public record ProductPurchaseResponse(
+        Long productId,
+        String name,
+        String description,
+        BigDecimal price,
+        double quantity
+) {
 }
