@@ -5,7 +5,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
-spring:
   cloud:
     config:
       override.system-properties: false

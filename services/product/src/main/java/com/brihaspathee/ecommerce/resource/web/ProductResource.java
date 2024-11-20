@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -33,10 +35,9 @@ public class ProductResource {
     }
 
     @PostMapping("/purchase")
-    public ResponseEntity<ProductPurchaseResponse> purchaseProducts(@RequestBody
-                                                                        @Valid
-                                                                        ProductPurchaseRequest productPurchaseRequest) {
-        return ResponseEntity.ok(productService.purchase(productPurchaseRequest));
+    public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(@RequestBody
+                                                                    List<ProductPurchaseRequest> productPurchaseRequests) {
+        return ResponseEntity.ok(productService.purchase(productPurchaseRequests));
     }
 
     @GetMapping

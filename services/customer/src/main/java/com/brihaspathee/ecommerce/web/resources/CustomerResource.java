@@ -6,15 +6,27 @@ import com.brihaspathee.ecommerce.web.model.CustomerList;
 import com.brihaspathee.ecommerce.web.model.CustomerRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/customer")
 public class CustomerResource {
 
     private final ICustomerService customerService;
+
+    @Value("${customer.variable.test}")
+    private String test_variable;
+
+    @GetMapping("/test")
+    public ResponseEntity<String> getStringValue(){
+        log.info("Inside getStringValue");
+        return ResponseEntity.ok(test_variable);
+    }
 
     @PostMapping
     public ResponseEntity<Long> createCustomer(@RequestBody @Valid CustomerRequest customer) {
