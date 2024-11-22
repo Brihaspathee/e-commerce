@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -16,5 +18,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public record PurchaseResponse() {
+public record PurchaseResponse(
+        Long productId,
+        String name,
+        String description,
+        BigDecimal price,
+        double quantity
+) {
 }

@@ -34,7 +34,7 @@ public record OrderRequest (
 
         @NotNull(message = "Customer should be present")
         @NotBlank(message = "Customer id cannot be blank")
-        Long customerId,
+        String customerId,
 
         @NotEmpty(message = "Products cannot be empty")
         List<PurchaseRequest> products
