@@ -7,7 +7,9 @@ import com.brihaspathee.ecommerce.helper.impl.ProductClient;
 import com.brihaspathee.ecommerce.helper.interfaces.CustomerClient;
 import com.brihaspathee.ecommerce.mapper.OrderMapper;
 import com.brihaspathee.ecommerce.web.model.CustomerList;
+import com.brihaspathee.ecommerce.web.model.OrderLineRequest;
 import com.brihaspathee.ecommerce.web.model.OrderRequest;
+import com.brihaspathee.ecommerce.web.model.PurchaseRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,8 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
+    private final OrderLineService orderLineService;
+
     public Long createOrder(OrderRequest orderRequest) {
         // check the customer --> Open Feign
 
@@ -52,11 +56,18 @@ public class OrderService {
         Order order = orderMapper.toOrder(orderRequest);
         orderRepository.save(order);
 
-
         // persist order lines
+        for(PurchaseRequest purchaseRequest: orderRequest.products()){
+            orderLineService.save(OrderLineRequest.builder()
+                            .orderId(order.getId())
+                            .productId(purchaseRequest.productId())
+                            .quantity(purchaseRequest.quantity())
+                    .build());
+        }
 
-        // start payment process
+        // todo start payment process
 
         // send the order confirmation to notification service
+        return null;
     }
 }
