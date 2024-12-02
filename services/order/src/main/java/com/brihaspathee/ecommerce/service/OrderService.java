@@ -1,15 +1,13 @@
 package com.brihaspathee.ecommerce.service;
 
+import com.brihaspathee.ecommerce.broker.producer.OrderProducer;
 import com.brihaspathee.ecommerce.domain.entity.Order;
 import com.brihaspathee.ecommerce.domain.repository.OrderRepository;
 import com.brihaspathee.ecommerce.exception.BusinessException;
 import com.brihaspathee.ecommerce.helper.impl.ProductClient;
 import com.brihaspathee.ecommerce.helper.interfaces.CustomerClient;
 import com.brihaspathee.ecommerce.mapper.OrderMapper;
-import com.brihaspathee.ecommerce.web.model.CustomerList;
-import com.brihaspathee.ecommerce.web.model.OrderLineRequest;
-import com.brihaspathee.ecommerce.web.model.OrderRequest;
-import com.brihaspathee.ecommerce.web.model.PurchaseRequest;
+import com.brihaspathee.ecommerce.web.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +37,8 @@ public class OrderService {
 
     private final OrderLineService orderLineService;
 
+    private final OrderProducer orderProducer;
+
     public Long createOrder(OrderRequest orderRequest) {
         // check the customer --> Open Feign
 
@@ -50,7 +50,8 @@ public class OrderService {
         }
 
         // purchase the product -> using product micro service (Rest Template)
-        productClient.purchaseProducts(orderRequest.products());
+        List<PurchaseResponse> purchaseResponses =
+                productClient.purchaseProducts(orderRequest.products());
 
         // persist order
         Order order = orderMapper.toOrder(orderRequest);
@@ -68,6 +69,13 @@ public class OrderService {
         // todo start payment process
 
         // send the order confirmation to notification service
-        return null;
+        orderProducer.sendOrderConfirmation(OrderConfirmation.builder()
+                .orderReference(orderRequest.reference())
+                        .totalAmount(orderRequest.amount())
+                        .paymentMethod(orderRequest.paymentMethod())
+                        .customer(optionalCustomerList.get().customers().getFirst())
+                        .products(purchaseResponses)
+                .build());
+        return order.getId();
     }
 }
