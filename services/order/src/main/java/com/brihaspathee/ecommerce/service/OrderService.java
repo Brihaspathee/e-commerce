@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Created in Intellij IDEA
@@ -38,6 +39,19 @@ public class OrderService {
     private final OrderLineService orderLineService;
 
     private final OrderProducer orderProducer;
+
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll().stream().map(orderMapper::toOrderResponse).toList();
+    }
+
+    public OrderResponse getOrderById(Long id) {
+        Optional<Order> order = orderRepository.findById(id);
+        if (order.isPresent()) {
+            return orderMapper.toOrderResponse(order.get());
+        }else{
+            throw new BusinessException("Order not found");
+        }
+    }
 
     public Long createOrder(OrderRequest orderRequest) {
         // check the customer --> Open Feign

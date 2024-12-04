@@ -3,6 +3,7 @@ package com.brihaspathee.ecommerce.mapper;
 import com.brihaspathee.ecommerce.domain.entity.Order;
 import com.brihaspathee.ecommerce.domain.entity.OrderLine;
 import com.brihaspathee.ecommerce.web.model.OrderLineRequest;
+import com.brihaspathee.ecommerce.web.model.OrderLineResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -31,5 +32,17 @@ public class OrderLineMapper {
                 .productId(orderLineRequest.productId())
                 .quantity(orderLineRequest.quantity())
                 .build();
+        return orderLine;
+    }
+
+    public OrderLineResponse toOrderLineResponse(OrderLine orderLine) {
+        if(orderLine == null) {
+            return null;
+        }
+        OrderLineResponse orderLineResponse = OrderLineResponse.builder()
+                .orderLineId(orderLine.getId())
+                .quantity(orderLine.getQuantity())
+                .build();
+        return orderLineResponse;
     }
 }

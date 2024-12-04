@@ -4,9 +4,12 @@ import com.brihaspathee.ecommerce.domain.entity.OrderLine;
 import com.brihaspathee.ecommerce.domain.repository.OrderLineRepository;
 import com.brihaspathee.ecommerce.mapper.OrderLineMapper;
 import com.brihaspathee.ecommerce.web.model.OrderLineRequest;
+import com.brihaspathee.ecommerce.web.model.OrderLineResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created in Intellij IDEA
@@ -31,5 +34,9 @@ public class OrderLineService {
                 .save(
                         orderLineMapper.toOrderLine(orderLineRequest));
         return orderLine.getId();
+    }
+
+    public List<OrderLineResponse> getOrderLinesOfOrder(Long orderId){
+        return orderLineRepository.findByOrderId(orderId).stream().map(orderLineMapper::toOrderLineResponse).toList();
     }
 }

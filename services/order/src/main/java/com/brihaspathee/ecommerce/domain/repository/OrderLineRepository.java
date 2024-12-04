@@ -3,6 +3,8 @@ package com.brihaspathee.ecommerce.domain.repository;
 import com.brihaspathee.ecommerce.domain.entity.OrderLine;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * Created in Intellij IDEA
  * User: Balaji Varadharajan
@@ -13,4 +15,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * To change this template use File | Settings | File and Code Template
  */
 public interface OrderLineRepository extends JpaRepository<OrderLine, Long> {
+
+    List<OrderLine> findByOrderId(Long orderId);
 }

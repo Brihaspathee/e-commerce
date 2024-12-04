@@ -2,6 +2,7 @@ package com.brihaspathee.ecommerce.mapper;
 
 import com.brihaspathee.ecommerce.domain.entity.Order;
 import com.brihaspathee.ecommerce.web.model.OrderRequest;
+import com.brihaspathee.ecommerce.web.model.OrderResponse;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,5 +29,19 @@ public class OrderMapper {
                 .paymentMethod(orderRequest.paymentMethod())
                 .build();
         return order;
+    }
+
+    public OrderResponse toOrderResponse(Order order) {
+        if (order == null) {
+            return null;
+        }
+        OrderResponse orderResponse = OrderResponse.builder()
+                .orderId(order.getId())
+                .reference(order.getReference())
+                .amount(order.getTotalAmount())
+                .paymentMethod(order.getPaymentMethod())
+                .customerId(order.getCustomerId())
+                .build();
+        return orderResponse;
     }
 }
