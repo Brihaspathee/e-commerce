@@ -37,6 +37,9 @@ public class OrderLineService {
     }
 
     public List<OrderLineResponse> getOrderLinesOfOrder(Long orderId){
-        return orderLineRepository.findByOrderId(orderId).stream().map(orderLineMapper::toOrderLineResponse).toList();
+        return orderLineRepository.findByOrderId(orderId)
+                .stream()
+                .map(orderLineMapper::toOrderLineResponse)
+                .toList();
     }
 }
