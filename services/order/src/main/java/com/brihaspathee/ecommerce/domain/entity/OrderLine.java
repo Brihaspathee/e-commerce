@@ -21,10 +21,10 @@ import lombok.*;
 public class OrderLine {
 
     @Id
-    @Getter
+    @GeneratedValue
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "order_id")
     private Order order;
 

@@ -24,7 +24,7 @@ public class CustomerServiceImpl implements ICustomerService {
     private final CustomerMapper customerMapper;
 
     @Override
-    public Long createCustomer(CustomerRequest customerRequest) {
+    public String createCustomer(CustomerRequest customerRequest) {
         Customer customer = customerMapper.toCustomer(customerRequest);
         customer = customerRepository.save(customer);
         return customer.getId();
@@ -49,7 +49,7 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public CustomerList getCustomerById(Long id) {
+    public CustomerList getCustomerById(String id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new CustomerNotFoundException("Customer with id: " + id + " not found"));
         return CustomerList.builder()
@@ -58,12 +58,12 @@ public class CustomerServiceImpl implements ICustomerService {
     }
 
     @Override
-    public Boolean existsById(Long id) {
+    public Boolean existsById(String id) {
         return customerRepository.findById(id).isPresent();
     }
 
     @Override
-    public void deleteCustomer(Long id) {
+    public void deleteCustomer(String id) {
         customerRepository.deleteById(id);
     }
 

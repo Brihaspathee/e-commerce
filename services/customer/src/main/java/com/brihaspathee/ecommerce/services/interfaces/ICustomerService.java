@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 
 public interface ICustomerService {
 
-    Long createCustomer(CustomerRequest customerRequest);
+    String createCustomer(CustomerRequest customerRequest);
 
     void updateCustomer(CustomerRequest customerRequest);
 
     CustomerList getAllCustomers();
 
-    CustomerList getCustomerById(Long id);
+    CustomerList getCustomerById(String id);
 
-    Boolean existsById(Long id);
+    Boolean existsById(String id);
 
-    void deleteCustomer(Long id);
+    void deleteCustomer(String id);
 }

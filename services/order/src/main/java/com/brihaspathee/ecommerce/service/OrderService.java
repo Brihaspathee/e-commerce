@@ -6,8 +6,10 @@ import com.brihaspathee.ecommerce.domain.repository.OrderRepository;
 import com.brihaspathee.ecommerce.exception.BusinessException;
 import com.brihaspathee.ecommerce.helper.impl.ProductClient;
 import com.brihaspathee.ecommerce.helper.interfaces.CustomerClient;
+import com.brihaspathee.ecommerce.helper.interfaces.PaymentClient;
 import com.brihaspathee.ecommerce.mapper.OrderMapper;
 import com.brihaspathee.ecommerce.web.model.*;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +42,8 @@ public class OrderService {
 
     private final OrderProducer orderProducer;
 
+    private final PaymentClient paymentClient;
+
     public List<OrderResponse> getAllOrders() {
         return orderRepository.findAll().stream().map(orderMapper::toOrderResponse).toList();
     }
@@ -53,11 +57,12 @@ public class OrderService {
         }
     }
 
+    @Transactional
     public Long createOrder(OrderRequest orderRequest) {
         // check the customer --> Open Feign
 
         Optional<CustomerList> optionalCustomerList =
-                this.customerClient.findCustomerById(Long.valueOf(orderRequest.customerId()));
+                this.customerClient.findCustomerById(orderRequest.customerId());
         if(optionalCustomerList.isEmpty() ||
                 optionalCustomerList.get().customers().isEmpty()){
             throw new BusinessException("Cannot create order, no customer exists");
@@ -80,7 +85,15 @@ public class OrderService {
                     .build());
         }
 
-        // todo start payment process
+        // start payment process
+        PaymentRequest paymentRequest = PaymentRequest.builder()
+                .amount(orderRequest.amount())
+                .paymentMethod(orderRequest.paymentMethod())
+                .orderId(order.getId())
+                .orderReference(order.getReference())
+                .customer(optionalCustomerList.get().customers().getFirst())
+                .build();
+        paymentClient.requestOrderPayment(paymentRequest);
 
         // send the order confirmation to notification service
         orderProducer.sendOrderConfirmation(OrderConfirmation.builder()

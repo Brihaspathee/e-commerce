@@ -41,10 +41,10 @@ public class Payment {
     private Long orderId;
 
     @CreatedDate
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(insertable = false, nullable = false)
+    @Column(insertable = false)
     private LocalDateTime lastModifiedAt;
 }

@@ -6,7 +6,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   kafka:
@@ -20,6 +20,6 @@ server:
   port: 7094
 application:
   config:
-    customer-url: http://localhost:7092/api/v1/customers
-    product-url: http://localhost:7093/api/v1/products
-    payment-url: http://localhost:7095/api/v1/payments
+    customer-url: http://localhost:7097/api/v1/customer
+    product-url: http://localhost:7097/api/v1/products
+    payment-url: http://localhost:7097/api/v1/payments

@@ -8,6 +8,7 @@ import com.brihaspathee.ecommerce.resource.model.ProductRequest;
 import com.brihaspathee.ecommerce.services.interfaces.IProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ import java.util.List;
  * Package Name: com.brihaspathee.ecommerce.resource.web
  * To change this template use File | Settings | File and Code Template
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
@@ -37,6 +39,7 @@ public class ProductResource {
     @PostMapping("/purchase")
     public ResponseEntity<List<ProductPurchaseResponse>> purchaseProducts(@RequestBody
                                                                     List<ProductPurchaseRequest> productPurchaseRequests) {
+        log.info("Product purchase: {}", productPurchaseRequests);
         return ResponseEntity.ok(productService.purchase(productPurchaseRequests));
     }
 

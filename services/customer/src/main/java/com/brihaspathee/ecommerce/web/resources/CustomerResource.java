@@ -19,17 +19,14 @@ public class CustomerResource {
 
     private final ICustomerService customerService;
 
-    @Value("${customer.variable.test}")
-    private String test_variable;
-
-    @GetMapping("/test")
-    public ResponseEntity<String> getStringValue(){
-        log.info("Inside getStringValue");
-        return ResponseEntity.ok(test_variable);
-    }
+//    @GetMapping("/test")
+//    public ResponseEntity<String> getStringValue(){
+//        log.info("Inside getStringValue");
+//        return ResponseEntity.ok(test_variable);
+//    }
 
     @PostMapping
-    public ResponseEntity<Long> createCustomer(@RequestBody @Valid CustomerRequest customer) {
+    public ResponseEntity<String> createCustomer(@RequestBody @Valid CustomerRequest customer) {
         return ResponseEntity.ok(customerService.createCustomer(customer));
     }
 
@@ -45,17 +42,18 @@ public class CustomerResource {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerList> getCustomer(@PathVariable Long id) {
+    public ResponseEntity<CustomerList> getCustomer(@PathVariable String id) {
+        log.info("Get customer with id {}", id);
         return ResponseEntity.ok(customerService.getCustomerById(id));
     }
 
     @GetMapping("/exists/{id}")
-    public ResponseEntity<Boolean> existsById(@PathVariable Long id) {
+    public ResponseEntity<Boolean> existsById(@PathVariable String id) {
         return ResponseEntity.ok(customerService.existsById(id));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCustomer(@PathVariable String id) {
         customerService.deleteCustomer(id);
         return ResponseEntity.accepted().build();
     }

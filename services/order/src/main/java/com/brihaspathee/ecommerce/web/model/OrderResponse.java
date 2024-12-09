@@ -16,8 +16,6 @@ import java.math.BigDecimal;
  * Package Name: com.brihaspathee.ecommerce.web.model
  * To change this template use File | Settings | File and Code Template
  */
-@Getter
-@Setter
 @Builder
 public record OrderResponse(
         Long orderId,
